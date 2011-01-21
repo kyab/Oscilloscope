@@ -13,41 +13,25 @@
 #define SUCCEEDED(result) (result == noErr)
 #define FAILED(result) (result != noErr)
 
-#define LOGENTER	NSLog(@"enter %@()", NSStringFromSelector(_cmd))
 
 
-
-//
-
-
-//use vector as smart pointer for C-arrays
+//vector as smart pointer for C-arrays
 #include <vector>	
 #define Array std::vector	//oops, need temlate typedef of C++0x,,
 
+#pragma mark -
+
 //callback for audio unit
-OSStatus InputProc(
+static OSStatus InputProc(
 				   void *inRefCon,
 				   AudioUnitRenderActionFlags *ioActionFlags,
 				   const AudioTimeStamp *inTimeStamp,
 				   UInt32 inBusNumber,
 				   UInt32 inNumberFrames,
 				   AudioBufferList * ioData)
-{
-
-	
-	//NSLog(@"input proc called");
-	/*
-    err= AudioUnitRender(InputUnit,
-						 ioActionFlags,
-						 inTimeStamp, 
-						 inBusNumber,     //will be '1' for input data
-						 inNumberFrames, //# of frames requested
-						 theBufferList);
-	*/
-	
+{	
 	CoreAudioInputProcessor *processor = (CoreAudioInputProcessor *)inRefCon;
 	return [processor inputComming:ioActionFlags :inTimeStamp :inBusNumber :inNumberFrames :ioData];
-
 }
 
 
@@ -61,9 +45,11 @@ OSStatus InputProc(
 		NSLog(@"failed to allocalte bufferlist");
 		return ;
 	}
+	
+	//get bytesize for each frame
 	UInt32 frames = 0;
 	UInt32 size = sizeof(UInt32);
-	//get the size form device
+		//get the size form device
 	OSStatus result = AudioUnitGetProperty(_inputUnit, kAudioDevicePropertyBufferFrameSize,
 							   	kAudioUnitScope_Global, 0, &frames, &size);
 	IF_FAILED(result,"can not get buffer frame size"){
@@ -78,7 +64,7 @@ OSStatus InputProc(
 		_tempBufferList->mBuffers[i].mDataByteSize = byteSize;
 		_tempBufferList->mBuffers[i].mData = malloc(byteSize);
 		if (_tempBufferList->mBuffers[i].mData == NULL){
-			NSLog(@"failed to allocate buffer memory byteSize = %d", byteSize);
+			NSLog(@"failed to allocate buffer memory, byteSize = %d", byteSize);
 			return;
 		}
 	}
@@ -326,7 +312,7 @@ OSStatus InputProc(
 }
 - (OSStatus) inputComming:(AudioUnitRenderActionFlags *)ioActionFlags :(const AudioTimeStamp *) inTimeStamp:
 		(UInt32) inBusNumber: (UInt32) inNumberFrames :(AudioBufferList *)ioData{
-	NSLog(@"inputComming, bus number = %u, frames = %u, flag=%d",inBusNumber, inNumberFrames, *ioActionFlags  );
+	//NSLog(@"inputComming, bus number = %u, frames = %u, flag=%d",inBusNumber, inNumberFrames, *ioActionFlags  );
 
 	
 	OSStatus result =  AudioUnitRender(
@@ -335,24 +321,32 @@ OSStatus InputProc(
 									   inTimeStamp, 
 									   inBusNumber, 
 									   inNumberFrames, 
-									   _tempBufferList
+									   _tempBufferList	//TODO: check Buffer.mData with NULL may OK..
 									   ); 
 	if (result != noErr){
 		NSLog(@"failed to AudioUnitRender");
 	}
 	float *temp_left = (float *)(_tempBufferList->mBuffers[0].mData);
 	float *temp_right = (float *)(_tempBufferList->mBuffers[1].mData);
-	NSLog(@"first sample is %+6.5f", temp_left[0]);		//-0.11096, +0.22430,, etc
 	
-	for (int i = 0 ; i < inNumberFrames; i++){
-		left.push_back(temp_left[i]);
-		right.push_back(temp_right[i]);
+	static UInt32 count = 0;
+	if ((count % 100) == 0){
+		
+		NSLog(@"input: %d frames, first sample is %+6.5f", inNumberFrames, temp_left[0]);		//-0.11096, +0.22430,, etc
+	}
+	count++;
+	@synchronized(self){
+		for (int i = 0 ; i < inNumberFrames; i++){
+			left.push_back(temp_left[i]);
+			right.push_back(temp_right[i]);
+		}
 	}
 	
-	//AudioUnitRener()..
 	return noErr;
 }
 
+
+#pragma mark -- accessors--
 
 -(std::vector<float> *) left{
 	return &left;
