@@ -6,7 +6,7 @@
 
 
 class Controller
-	attr_accessor :view
+	attr_accessor :view, :view2, :view3
 	def awakeFromNib()
 		@processor = CoreAudioInputProcessor.new
 	end
@@ -14,6 +14,8 @@ class Controller
 	def initProcessor(sender)
 		if (@processor.initProcessor)
 			@view.setProcessor(@processor)
+			@view2.setProcessor(@processor)
+			@view3.setProcessor(@processor)
 			NSLog("processor associated with oscillo-view");
 		end
 		

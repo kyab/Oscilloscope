@@ -83,9 +83,9 @@
 	}
 	
 	[[NSColor greenColor] set];
-	//[[NSGraphicsContext currentContext] setShouldAntialias:NO];
+	[[NSGraphicsContext currentContext] setShouldAntialias:NO];
 	[path stroke];
-	//[[NSGraphicsContext currentContext] setShouldAntialias:YES];
+	[[NSGraphicsContext currentContext] setShouldAntialias:YES];
 	
 }
 	
