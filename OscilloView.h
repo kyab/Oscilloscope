@@ -12,12 +12,15 @@
 
 @interface OscilloView : NSView {
 	id _processor;	//something which return left and right buffer
+	UInt32 _showSampleNum;
 }
 
 -(void)setProcessor:(CoreAudioInputProcessor *)processor;
 
 //override
 -(void)drawRect:(NSRect) dirtyRect;
+-(void)setShowSampleNum:(UInt32) showSampleNum;
+-(UInt32)showSampleNum;
 	
 
 @end
