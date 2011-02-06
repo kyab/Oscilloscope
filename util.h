@@ -73,6 +73,26 @@ private:
 	OSStatus _result;
 };
 
+//benchmark
+class Timer{
+public:
+	Timer(){
+	}
+	
+	void start(){
+		_startTime = CFAbsoluteTimeGetCurrent();
+	}
+	
+	void stop(){
+		_endTime = CFAbsoluteTimeGetCurrent();
+	}
+	
+	CFAbsoluteTime result(){
+		return _endTime - _startTime;
+	}
+private:
+	CFAbsoluteTime _startTime, _endTime;
+};
 
 
 #endif //__UTIL_H__

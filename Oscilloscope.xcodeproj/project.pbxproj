@@ -57,6 +57,8 @@
 		EB74611D12E8A2BC000DB0FC /* RUtil.rb in Resources */ = {isa = PBXBuildFile; fileRef = EB74611C12E8A2BC000DB0FC /* RUtil.rb */; };
 		EB74612712E8A2D5000DB0FC /* util.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB74612512E8A2D5000DB0FC /* util.mm */; };
 		EB74614212E8AB6E000DB0FC /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB74614112E8AB6E000DB0FC /* AudioToolbox.framework */; };
+		EBD8A02012FEA5390067E2C6 /* fft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBD8A01C12FEA5390067E2C6 /* fft.cpp */; };
+		EBD8A02112FEA5390067E2C6 /* SpectrumView.mm in Sources */ = {isa = PBXBuildFile; fileRef = EBD8A01F12FEA5390067E2C6 /* SpectrumView.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -96,6 +98,10 @@
 		EB74612512E8A2D5000DB0FC /* util.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = util.mm; sourceTree = "<group>"; };
 		EB74612612E8A2D5000DB0FC /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
 		EB74614112E8AB6E000DB0FC /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		EBD8A01C12FEA5390067E2C6 /* fft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fft.cpp; sourceTree = "<group>"; };
+		EBD8A01D12FEA5390067E2C6 /* fft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fft.h; sourceTree = "<group>"; };
+		EBD8A01E12FEA5390067E2C6 /* SpectrumView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumView.h; sourceTree = "<group>"; };
+		EBD8A01F12FEA5390067E2C6 /* SpectrumView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpectrumView.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,12 +123,16 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				EB6A8C5B12E8F18A000B710A /* Utils */,
+				EBD8A01C12FEA5390067E2C6 /* fft.cpp */,
+				EBD8A01D12FEA5390067E2C6 /* fft.h */,
 				EB6BC08F12E87550008D3C9E /* Controller.rb */,
 				EB6BC09C12E875F1008D3C9E /* CoreAudioInputProcessor.h */,
 				EB6BC09D12E875F1008D3C9E /* CoreAudioInputProcessor.mm */,
 				EB6A8C5812E8F17D000B710A /* OscilloView.h */,
 				EB6A8C5912E8F17D000B710A /* OscilloView.mm */,
+				EBD8A01E12FEA5390067E2C6 /* SpectrumView.h */,
+				EBD8A01F12FEA5390067E2C6 /* SpectrumView.mm */,
+				EB6A8C5B12E8F18A000B710A /* Utils */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -332,6 +342,8 @@
 				EB6BC09E12E875F1008D3C9E /* CoreAudioInputProcessor.mm in Sources */,
 				EB74612712E8A2D5000DB0FC /* util.mm in Sources */,
 				EB6A8C5A12E8F17D000B710A /* OscilloView.mm in Sources */,
+				EBD8A02012FEA5390067E2C6 /* fft.cpp in Sources */,
+				EBD8A02112FEA5390067E2C6 /* SpectrumView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

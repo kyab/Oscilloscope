@@ -16,7 +16,7 @@
 @interface CoreAudioInputProcessor : NSObject {
 	AudioUnit _inputUnit;
 	AudioBufferList *_tempBufferList;
-	std::vector<float> left;
+	std::vector<float> left;	//TODO: Make this ring-buffer
 	std::vector<float> right;
 }
 
