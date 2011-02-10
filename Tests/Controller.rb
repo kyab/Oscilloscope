@@ -6,7 +6,7 @@
 
 
 class Controller
-	attr_accessor :view, :view2
+	attr_accessor :view, :view2, :view3
 	attr_accessor :showtime
 	attr_accessor :slider
 	def awakeFromNib()
@@ -19,7 +19,8 @@ class Controller
 	def initProcessor(sender)
 		if (@processor.initProcessor)
 			@view.setProcessor(@processor)
-			@view2.setProcessor(@processor)
+			#@view2.setProcessor(@processor)
+			@view3.setProcessor(@processor)
 		else
 			NSLog("failed to init processor")
 		end

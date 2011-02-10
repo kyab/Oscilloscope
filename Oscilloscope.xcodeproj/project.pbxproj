@@ -49,6 +49,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		EB5B36E713011C69006E1B7E /* SpectrumView3D.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB5B36E613011C69006E1B7E /* SpectrumView3D.mm */; };
 		EB6A8C5A12E8F17D000B710A /* OscilloView.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB6A8C5912E8F17D000B710A /* OscilloView.mm */; };
 		EB6BC09012E87550008D3C9E /* Controller.rb in Resources */ = {isa = PBXBuildFile; fileRef = EB6BC08F12E87550008D3C9E /* Controller.rb */; };
 		EB6BC09E12E875F1008D3C9E /* CoreAudioInputProcessor.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB6BC09D12E875F1008D3C9E /* CoreAudioInputProcessor.mm */; };
@@ -87,6 +88,8 @@
 		4DE3BE130D8651D900ECA448 /* MacRuby.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MacRuby.framework; path = /Library/Frameworks/MacRuby.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Oscilloscope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Oscilloscope.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB5B36E513011C69006E1B7E /* SpectrumView3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumView3D.h; sourceTree = "<group>"; };
+		EB5B36E613011C69006E1B7E /* SpectrumView3D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpectrumView3D.mm; sourceTree = "<group>"; };
 		EB6A8C5812E8F17D000B710A /* OscilloView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscilloView.h; sourceTree = "<group>"; };
 		EB6A8C5912E8F17D000B710A /* OscilloView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OscilloView.mm; sourceTree = "<group>"; };
 		EB6BC08F12E87550008D3C9E /* Controller.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; name = Controller.rb; path = Tests/Controller.rb; sourceTree = "<group>"; };
@@ -132,6 +135,8 @@
 				EB6A8C5912E8F17D000B710A /* OscilloView.mm */,
 				EBD8A01E12FEA5390067E2C6 /* SpectrumView.h */,
 				EBD8A01F12FEA5390067E2C6 /* SpectrumView.mm */,
+				EB5B36E513011C69006E1B7E /* SpectrumView3D.h */,
+				EB5B36E613011C69006E1B7E /* SpectrumView3D.mm */,
 				EB6A8C5B12E8F18A000B710A /* Utils */,
 			);
 			name = Classes;
@@ -344,6 +349,7 @@
 				EB6A8C5A12E8F17D000B710A /* OscilloView.mm in Sources */,
 				EBD8A02012FEA5390067E2C6 /* fft.cpp in Sources */,
 				EBD8A02112FEA5390067E2C6 /* SpectrumView.mm in Sources */,
+				EB5B36E713011C69006E1B7E /* SpectrumView3D.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

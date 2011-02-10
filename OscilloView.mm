@@ -140,26 +140,26 @@
 - (void)drawRect:(NSRect)dirtyRect {
 
 	[self drawBackground];
+	std::vector<float> flagment;
 
-	const std::vector<float> *left = [_processor left];
-
-	if ( (left != NULL) && (left->size() != 0) ){
+	@synchronized( _processor){
+		const std::vector<float> *left = [_processor left];
+		if ( (left == NULL) || (left->size() == 0) ){
+			return;
+		}
+		
 		size_t copySampleNum = _showSampleNum;
-		std::vector<float> flagment = std::vector<float>(copySampleNum, 0.0f);
+		flagment.assign(copySampleNum, 0.0f);
+		if (left->size() < copySampleNum) {
+			copySampleNum = left->size();
+			memcpy(&flagment[0], &(*left)[0],copySampleNum * sizeof(float));
+		}else{
+			size_t offset = left->size() - copySampleNum;
+			memcpy(&flagment[0], &(*left)[offset],copySampleNum * sizeof(float));
+		}
+	}		
+	if (!flagment.empty()) 	[self drawSample:flagment];
 		
-		@synchronized( _processor){
-			if (left->size() < copySampleNum) {
-				copySampleNum = left->size();
-				memcpy(&flagment[0], &(*left)[0],copySampleNum * sizeof(float));
-			}else{
-				size_t offset = left->size() - copySampleNum;
-				memcpy(&flagment[0], &(*left)[offset],copySampleNum * sizeof(float));
-			}
-		}		
-
-		[self drawSample:flagment];
-		
-	}
 	//NSLog(@"OscilloView:: , no sample");
 }
 

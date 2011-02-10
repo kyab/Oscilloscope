@@ -29,7 +29,7 @@
 	[self setNeedsDisplay:YES];
 	
 	//TODO: manage timer. only if there are no timer, timer should initialized.
-	[NSTimer scheduledTimerWithTimeInterval:0.05  
+	[NSTimer scheduledTimerWithTimeInterval:0.03 
 									 target:self
 								   selector: @selector(ontimer:)
 								   userInfo:nil
@@ -49,35 +49,32 @@
 }*/
 
 - (void)drawRect:(NSRect)dirtyRect {
-
+	const int FFT_SIZE = 1024 * 2;
     [[NSColor blackColor] set];
 	NSRectFill([self bounds]);
 	
 	if (_processor == nil) return;
 	using namespace std;
-	//vector<complex <double> > spectrum  = [_aiff getSlowFFTBuffer];
-	//vector<complex <double> > spectrum  = [_aiff getFastFFTBuffer];
-	//vector<complex <double> > spectrum  = [_aiff getDFTBuffer];
 	
 	//get the fft of current samples
-	vector<complex <double> > spectrum = vector<complex<double> >(1024,0.0);
+	vector<complex <double> > spectrum = vector<complex<double> >(FFT_SIZE,0.0);
 	{
-		vector<complex<double> > buffer = vector<complex<double> >(1024, 0.0);
+		vector<complex<double> > buffer = vector<complex<double> >(FFT_SIZE, 0.0);
 		const vector<float> *left = [_processor left];
 		
-		if ((left == NULL) || (left->size() < 1024)){
+		if ((left == NULL) || (left->size() < FFT_SIZE)){
 			return;
 		}
 		@synchronized( _processor ){
-			int offset = left->size() - 1024;
-			for (int i = 0 ; i < 1024; i++){
+			int offset = left->size() - FFT_SIZE;
+			for (int i = 0 ; i < FFT_SIZE; i++){
+				//float val = (*left)[i + offset];
 				buffer[i] = (*left)[i + offset];
 			}
 		}
-		fastForwardFFT(&buffer[0], 1024, &spectrum[0]);
+		fastForwardFFT(&buffer[0], FFT_SIZE, &spectrum[0]);
 	}
 		
-	
 	//NSLog(@" spectrum size = %d", spectrum.size());
 	
 	NSRect bounds = [self bounds];
@@ -87,7 +84,6 @@
 	NSBezierPath *path = [[NSBezierPath bezierPath] retain];
 	[path moveToPoint:NSMakePoint(0,0)];
 	for (int i = 0 ; i < spectrum.size() ; i++){
-		//std::cout << spectrum[i] << std::endl;
 		float amp = abs(spectrum[i])/spectrum.size();
 		float x = bounds.size.width*2 / spectrum.size() * i;
 		
@@ -99,7 +95,7 @@
 	[[NSGraphicsContext currentContext] setShouldAntialias:NO];
 	[path stroke];
 	timer.stop();
-	//NSLog(@"drwaing takes %f[msec]", timer.result()*1000);
+	NSLog(@"drwaing takes %f[msec]", timer.result()*1000);
 	
 }
 
