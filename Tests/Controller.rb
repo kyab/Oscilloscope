@@ -19,7 +19,7 @@ class Controller
 	def initProcessor(sender)
 		if (@processor.initProcessor)
 			@view.setProcessor(@processor)
-			#@view2.setProcessor(@processor)
+			@view2.setProcessor(@processor)
 			@view3.setProcessor(@processor)
 		else
 			NSLog("failed to init processor")

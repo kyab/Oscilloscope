@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="372"/>
+			<integer value="371"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -762,7 +762,7 @@
 			<object class="NSWindowTemplate" id="972006081">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{335, 226}, {793, 524}}</string>
+				<string key="NSWindowRect">{{335, 65}, {580, 685}}</string>
 				<int key="NSWTFlags">1946157056</int>
 				<string key="NSWindowTitle">Oscilloscope</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -776,7 +776,7 @@
 						<object class="NSButton" id="263622921">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{14, 476}, {96, 32}}</string>
+							<string key="NSFrame">{{14, 637}, {96, 32}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="137731849">
@@ -800,7 +800,7 @@
 						<object class="NSButton" id="82788913">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{153, 476}, {96, 32}}</string>
+							<string key="NSFrame">{{153, 637}, {96, 32}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="783654051">
@@ -820,7 +820,7 @@
 						<object class="NSButton" id="620944276">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{297, 476}, {96, 32}}</string>
+							<string key="NSFrame">{{297, 637}, {96, 32}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="683792542">
@@ -840,7 +840,7 @@
 						<object class="NSSlider" id="179620392">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{461, 478}, {334, 21}}</string>
+							<string key="NSFrame">{{461, 639}, {334, 21}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSliderCell" key="NSCell" id="741586211">
@@ -861,7 +861,7 @@
 						<object class="NSTextField" id="84864245">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{539, 499}, {189, 17}}</string>
+							<string key="NSFrame">{{539, 660}, {189, 17}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="881117369">
@@ -893,7 +893,7 @@
 						<object class="NSTextField" id="897095810">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{138, 507}, {368, 17}}</string>
+							<string key="NSFrame">{{138, 668}, {368, 17}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="903547258">
@@ -924,39 +924,39 @@
 												<object class="NSCustomView" id="759316053">
 													<reference key="NSNextResponder" ref="32499616"/>
 													<int key="NSvFlags">256</int>
-													<string key="NSFrameSize">{753, 175}</string>
+													<string key="NSFrameSize">{540, 77}</string>
 													<reference key="NSSuperview" ref="32499616"/>
 													<string key="NSClassName">OscilloView</string>
 												</object>
 												<object class="NSCustomView" id="927428552">
 													<reference key="NSNextResponder" ref="32499616"/>
 													<int key="NSvFlags">256</int>
-													<string key="NSFrame">{{0, 184}, {753, 71}}</string>
+													<string key="NSFrame">{{0, 86}, {540, 31}}</string>
 													<reference key="NSSuperview" ref="32499616"/>
 													<string key="NSClassName">SpectrumView</string>
 												</object>
 											</object>
-											<string key="NSFrameSize">{753, 255}</string>
+											<string key="NSFrameSize">{540, 117}</string>
 											<reference key="NSSuperview" ref="486120655"/>
 										</object>
 									</object>
-									<string key="NSFrameSize">{753, 255}</string>
+									<string key="NSFrameSize">{540, 117}</string>
 									<reference key="NSSuperview" ref="49267053"/>
 									<string key="NSClassName">NSView</string>
 								</object>
 								<object class="NSCustomView" id="905860806">
 									<reference key="NSNextResponder" ref="49267053"/>
 									<int key="NSvFlags">256</int>
-									<string key="NSFrame">{{0, 264}, {753, 169}}</string>
+									<string key="NSFrame">{{0, 126}, {540, 468}}</string>
 									<reference key="NSSuperview" ref="49267053"/>
 									<string key="NSClassName">SpectrumView3D</string>
 								</object>
 							</object>
-							<string key="NSFrame">{{20, 20}, {753, 433}}</string>
+							<string key="NSFrame">{{20, 20}, {540, 594}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 						</object>
 					</object>
-					<string key="NSFrameSize">{793, 524}</string>
+					<string key="NSFrameSize">{580, 685}</string>
 					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
@@ -2475,9 +2475,9 @@
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{33, 275}, {793, 524}}</string>
+					<string>{{33, 114}, {580, 685}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{33, 275}, {793, 524}}</string>
+					<string>{{33, 114}, {580, 685}}</string>
 					<integer value="1"/>
 					<string>{{33, 99}, {480, 360}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

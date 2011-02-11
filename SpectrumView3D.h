@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "CoreAudioInputProcessor.h"
 #include <vector>
-#include <list>
+#include <deque>
 #include <complex>
 
 typedef std::complex<double> Dcomplex;
@@ -17,7 +17,7 @@ typedef std::vector<Dcomplex>  Spectrum;
 
 @interface SpectrumView3D : NSView {
 	id _processor;	//or sound buffer
-	std::list<Spectrum> _spectrums;
+	std::deque<Spectrum> _spectrums;
 	
 }
 

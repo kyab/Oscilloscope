@@ -95,7 +95,7 @@
 	[[NSGraphicsContext currentContext] setShouldAntialias:NO];
 	[path stroke];
 	timer.stop();
-	NSLog(@"drwaing takes %f[msec]", timer.result()*1000);
+	//NSLog(@"drwaing takes %f[msec]", timer.result()*1000);
 	
 }
 

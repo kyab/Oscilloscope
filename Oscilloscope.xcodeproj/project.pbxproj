@@ -60,6 +60,7 @@
 		EB74614212E8AB6E000DB0FC /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB74614112E8AB6E000DB0FC /* AudioToolbox.framework */; };
 		EBD8A02012FEA5390067E2C6 /* fft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBD8A01C12FEA5390067E2C6 /* fft.cpp */; };
 		EBD8A02112FEA5390067E2C6 /* SpectrumView.mm in Sources */ = {isa = PBXBuildFile; fileRef = EBD8A01F12FEA5390067E2C6 /* SpectrumView.mm */; };
+		EBF5B31E13057B6B0071C1EC /* 3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF5B31D13057B6B0071C1EC /* 3d.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -105,6 +106,8 @@
 		EBD8A01D12FEA5390067E2C6 /* fft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fft.h; sourceTree = "<group>"; };
 		EBD8A01E12FEA5390067E2C6 /* SpectrumView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumView.h; sourceTree = "<group>"; };
 		EBD8A01F12FEA5390067E2C6 /* SpectrumView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpectrumView.mm; sourceTree = "<group>"; };
+		EBF5B31C13057B6B0071C1EC /* 3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = 3d.h; sourceTree = "<group>"; };
+		EBF5B31D13057B6B0071C1EC /* 3d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = 3d.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +140,8 @@
 				EBD8A01F12FEA5390067E2C6 /* SpectrumView.mm */,
 				EB5B36E513011C69006E1B7E /* SpectrumView3D.h */,
 				EB5B36E613011C69006E1B7E /* SpectrumView3D.mm */,
+				EBF5B31C13057B6B0071C1EC /* 3d.h */,
+				EBF5B31D13057B6B0071C1EC /* 3d.cpp */,
 				EB6A8C5B12E8F18A000B710A /* Utils */,
 			);
 			name = Classes;
@@ -350,6 +355,7 @@
 				EBD8A02012FEA5390067E2C6 /* fft.cpp in Sources */,
 				EBD8A02112FEA5390067E2C6 /* SpectrumView.mm in Sources */,
 				EB5B36E713011C69006E1B7E /* SpectrumView3D.mm in Sources */,
+				EBF5B31E13057B6B0071C1EC /* 3d.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
