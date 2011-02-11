@@ -17,7 +17,6 @@
 
 #include "math.h"
 
-//NOT GOOD!!!! needs simplify
 
 static const int FFT_SIZE = 256 * 8;
 
@@ -114,6 +113,8 @@ public:
 
 
 //world corrdinate is basically [-100 100] for x,y, and z
+
+
 @implementation SpectrumView3D
 
 - (id)initWithFrame:(NSRect)frame {
@@ -128,7 +129,7 @@ public:
 	_processor = processor;
 	[self setNeedsDisplay:YES];
 	
-	//TODO: manage timer. only if there are no timer, timer should initialized.
+	//TODO: manage timer instance, timer should initialized. only if there are no timer
 	[NSTimer scheduledTimerWithTimeInterval:1.0f/1
 									 target:self
 								   selector: @selector(ontimer:)
@@ -162,9 +163,8 @@ public:
 //world -> camera -> screen
 - (NSPoint)pointXYFrom3DPoint:(Point3D)point3d{
 	
-	//we should be able to translate
 	point3d.rotateY(rad(-40)).rotateX(rad(40));
-	NSPoint pointXY = point3d.toCamera(600,1000);		//todo not change this!
+	NSPoint pointXY = point3d.toCamera(600,1000);		//DO NOT CHANGE THIS!
 	pointXY = [self screenFromCamera:pointXY];
 	
 	pointXY.x -= [self bounds].size.width/2.2;
@@ -180,13 +180,12 @@ public:
 	int length = spectrum.size()/2;
 	for (int i = 0 ; i < length ; i++){
 		float amp = abs(spectrum[i])/spectrum.size();
-
-		
 		float db = 20 * std::log10(amp);
 		if (db < -95){
 			//to draw the base line
 			db = -96;
 		}
+		
 		float y = db + 96 + 40/*visible factor*/;
 		float z = i;
 		
@@ -197,10 +196,10 @@ public:
 		
 		Point3D point3d(x,y,z);
 		point3d.shift(0,0,0);
-		//now cube is in [-100,100] for x,y and z
+		
+		//now point3d is 3D point in world coordinate.
 		
 		NSPoint point = [self pointXYFrom3DPoint:point3d];		
-		//screen
 		if (i == 0){
 			[path moveToPoint:point];
 		}else{
@@ -211,15 +210,13 @@ public:
 											green:0.5 
 											blue:0.5
 											  alpha:1.0];
-	//[[NSColor yellowColor] set];
 	[color set];
 	[[NSGraphicsContext currentContext] setShouldAntialias:NO];
 	[path stroke];
 }
 
 
-
-- (void)drawLineFrom:(Point3D) from to:(Point3D)to{
+- (void)drawLineFrom:(Point3D)from to:(Point3D)to{
 	NSPoint from_xy = [self pointXYFrom3DPoint:from];
 	NSPoint to_xy = [self pointXYFrom3DPoint:to];
 
@@ -227,9 +224,8 @@ public:
 }
 
 
-
 - (void)drawText:(NSString *)text atPoint:(Point3D)point3d{
-	NSPoint point_xy = [self pointXYFrom3DPoint:point3d];
+	
 	NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
 	[attributes setObject:[NSFont fontWithName:@"Monaco" size:14.0f]
 				   forKey:NSFontAttributeName];
@@ -237,25 +233,28 @@ public:
 				   forKey:NSForegroundColorAttributeName];
 	
 	NSAttributedString *at_text = [[NSAttributedString alloc] initWithString: text
-														attributes: attributes];
-	[at_text drawAtPoint:point_xy];
-//withAttributes:<#(NSDictionary *)attrs#>
+	                                                        attributes: attributes];
+    
+    NSPoint point_xy = [self pointXYFrom3DPoint:point3d];
+    [at_text drawAtPoint:point_xy];
+	
 }
+
+
 - (void)drawRect:(NSRect)dirtyRect {
 
     [[NSColor blackColor] set];
 	NSRectFill([self bounds]);
 	
 	if (_processor == nil) return;
+	
 	using namespace std;
 	
-	//get the fft of current samples
-	//new fft result has bigger index.
+	//draw spectrum(s).
 	if (_spectrums.size() > 10){
 		_spectrums.pop_front();
 	}
 	_spectrums.push_back(Spectrum(FFT_SIZE,0.0));
-
 	
 	{
 		Spectrum &spectrum = _spectrums.back();
@@ -266,6 +265,8 @@ public:
 			NSLog(@"not enough samples to get FFT");
 			return;
 		}
+		
+		//get the fft of latest FFT_SIZE samples.
 		@synchronized( _processor ){
 			int offset = left->size() - FFT_SIZE;
 			for (int i = 0 ; i < FFT_SIZE; i++){
@@ -279,7 +280,6 @@ public:
 		[self drawSpectrum:_spectrums[index] index:index];
 	}
 
-	
 	//draw axis
 	[[NSColor yellowColor] set];
 	[self drawLineFrom:Point3D(0,-100,0) to:Point3D(0,100,0)];
@@ -291,7 +291,6 @@ public:
 	[self drawText:@"dB(y)" atPoint:Point3D(0,100,0)];
 	[self drawText:@"freq(z)" atPoint:Point3D(0,0,250)];
 	
-
 	
 }
 
