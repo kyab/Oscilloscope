@@ -18,7 +18,8 @@
 #include "math.h"
 
 
-static const int FFT_SIZE = 256 * 8;
+static const int FFT_SIZE = 256 * 2;
+static const int SPECTRUM3D_COUNT = 30;
 
 static float rad(float degree){
 	return 2 * M_PI/ 360 * degree;
@@ -130,7 +131,7 @@ public:
 	[self setNeedsDisplay:YES];
 	
 	//TODO: manage timer instance, timer should initialized. only if there are no timer
-	[NSTimer scheduledTimerWithTimeInterval:1.0f/1
+	[NSTimer scheduledTimerWithTimeInterval:1.0f/30
 									 target:self
 								   selector: @selector(ontimer:)
 								   userInfo:nil
@@ -191,8 +192,8 @@ public:
 		
 		//scale to world coordinate:[-100,100]
 		z = z * 100/length*2/*scale factor*/;
-		y = y * 200/96 * 0.1/*scale factor*/;
-		float x = float(index) * 200/(_spectrums.size());
+		y = y * 200/96 * 0.2/*scale factor*/;
+		float x = float(index) * 200/(_spectrums.size()) * 1.3/*scale factor*/;
 		
 		Point3D point3d(x,y,z);
 		point3d.shift(0,0,0);
@@ -211,8 +212,50 @@ public:
 											blue:0.5
 											  alpha:1.0];
 	[color set];
-	[[NSGraphicsContext currentContext] setShouldAntialias:NO];
+	//[[NSGraphicsContext currentContext] setShouldAntialias:NO];
+	//[path stroke];
+	
+	//TODO: add lines to complete path
+	//last point to -96 decibel
+	{
+		float x,y,z;
+		x = float(index) * 200/(_spectrums.size()) * 1.3;
+		y = 40.0f;
+		y = y * 200/96 * 0.2;
+		z = float(length)*100/length*2;
+		Point3D point3d(x,y,z);
+		NSPoint zeroAtMaxFreq = [self pointXYFrom3DPoint:point3d];
+		[path lineToPoint:zeroAtMaxFreq];
+	}
+	
+	{
+		float x,y,z;
+		x = float(index) * 200/(_spectrums.size()) * 1.3;
+		y = 40.0f;
+		y = y * 200/96 * 0.2;
+		z = 0.0f*100/length*2;
+		Point3D point3d(x,y,z);
+		NSPoint zeroAtMinFreq = [self pointXYFrom3DPoint:point3d];
+		[path lineToPoint:zeroAtMinFreq];
+	}
+	
+	
+	
+	[path closePath];
+	[path fill];
+	[[NSColor yellowColor] set];
 	[path stroke];
+	
+	//fill example
+	/*
+	NSBezierPath *path2 = [NSBezierPath bezierPath];
+	[path2 moveToPoint:NSMakePoint(10,10)];
+	[path2 lineToPoint:NSMakePoint(110,10)];
+	[path2 lineToPoint:NSMakePoint(110,110)];
+	[path2 lineToPoint:NSMakePoint(10,110)];
+	[path2 closePath]; //closePath automatically create path from end point to first point.
+	[path2 fill];*/
+	
 }
 
 
@@ -251,7 +294,7 @@ public:
 	using namespace std;
 	
 	//draw spectrum(s).
-	if (_spectrums.size() > 10){
+	if (_spectrums.size() > SPECTRUM3D_COUNT){
 		_spectrums.pop_front();
 	}
 	_spectrums.push_back(Spectrum(FFT_SIZE,0.0));
