@@ -19,9 +19,17 @@ typedef std::vector<Dcomplex>  Spectrum;
 	id _processor;	//or sound buffer
 	std::deque<Spectrum> _spectrums;
 	
+	float _rotateX;
+	float _rotateY;
+	float _rotateZ;
+	
 }
 
 - (void)setProcessor:(CoreAudioInputProcessor *)processor;
+
+@property(assign)float rotateX;
+@property(assign)float rotateY;
+@property(assign)float rotateZ;
 
 @end
 

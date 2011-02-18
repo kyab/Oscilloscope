@@ -19,7 +19,7 @@
 
 
 static const int FFT_SIZE = 256 * 2;
-static const int SPECTRUM3D_COUNT = 30;
+static const int SPECTRUM3D_COUNT = 40;
 
 static float rad(float degree){
 	return 2 * M_PI/ 360 * degree;
@@ -41,20 +41,22 @@ public:
 	
 	Point3D &rotateX(float theta){
 		//mX = mX;
-		mY = mY * cos(theta) + mZ * sin(theta);
-		mZ = -mY * sin(theta) + mZ * cos(theta);
+		
+		float newY = mY * cos(theta) + mZ * sin(theta);
+		float newZ = -mY * sin(theta) + mZ * cos(theta);
+		update(mX, newY, newZ);
 		return *this;
 	}
 	Point3D &rotateY(float theta){
-		mX = mX*cos(theta) - mZ*sin(theta);
-		//mY = mY;
-		mZ = mX*sin(theta) + mZ*cos(theta);
+		float newX =  mX*cos(theta) - mZ*sin(theta);
+		float newZ =  mX*sin(theta) + mZ*cos(theta);
+		update(newX, mY, newZ);
 		return *this;
 	}
 	Point3D &rotateZ(float theta){
-		mX = mX*cos(theta) - mY*sin(theta);
-		mY = mX*sin(theta) + mY*cos(theta);
-		//mZ = mZ;
+		float newX = mX*cos(theta) - mY*sin(theta);
+		float newY = mX*sin(theta) + mY*cos(theta);
+		update(newX,newY,mZ);
 		return *this;
 	}
 	
@@ -99,14 +101,24 @@ public:
 		return *this;
 	}
 	
+	//Perspective(透視投影)
 	NSPoint toCamera(float d1, float d2){
 		float cameraX = mX * d1 / (d2 + mZ);
 		float cameraY = mY * d1 / (d2 + mZ);
 		return NSMakePoint(cameraX, cameraY);
+		//return NSMakePoint(mX, m
+	}
+	
+	NSPoint toCamera_noPerspective(){
+		return NSMakePoint(mX,mY);
 	}
 	
 	NSPoint toNSPoint(){
 		return NSMakePoint(mX, mY);
+	}
+	
+	void log(){
+		NSLog(@"point3d, x=%f,y=%f,z=%f", mX,mY,mZ);
 	}
 	
 
@@ -115,13 +127,28 @@ public:
 
 //world corrdinate is basically [-100 100] for x,y, and z
 
-
 @implementation SpectrumView3D
+
+- (float)rotateZ{
+	return _rotateZ;
+}
+-(void)setRotateZ:(float) val{
+	//[self willChangeValueForKey:@"rotateZ"];
+	_rotateZ = val;
+	//[self didChangeValueForKey:@"rotateZ"];
+	NSLog(@"rotateZ newValue=%f", val);
+	[self setNeedsDisplay:true];
+}
+
+@synthesize rotateX = _rotateX,rotateY = _rotateY, rotateZ = _rotateZ;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
 		_processor = nil;
+		_rotateX = 0;// 30;
+		_rotateY = 0;//-40;
+		_rotateZ = 0;
 								 
     }
     return self;
@@ -131,23 +158,32 @@ public:
 	[self setNeedsDisplay:YES];
 	
 	//TODO: manage timer instance, timer should initialized. only if there are no timer
-	[NSTimer scheduledTimerWithTimeInterval:1.0f/30
+	NSTimer *timer = [NSTimer timerWithTimeInterval:1.0f/20
 									 target:self
 								   selector: @selector(ontimer:)
 								   userInfo:nil
 									repeats:true];
+	NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+	[runLoop addTimer:timer forMode:NSDefaultRunLoopMode];
+	
+	//fire the timer even in mouse tracking!
+	[runLoop addTimer:timer forMode:NSEventTrackingRunLoopMode];
+	
+	[self setNeedsDisplay:YES];
 	
 }
 
 - (void)ontimer:(NSTimer *)timer {
+	
+	//NSLog(@"timer in mode:%@", [[NSRunLoop currentRunLoop] currentMode]);
 	[self setNeedsDisplay:YES];
 }
 
 //camera -> screen
 - (NSPoint) screenFromCamera:(NSPoint)point{
 	NSSize camera_size;
-	camera_size.width = 200;
-	camera_size.height = 200;
+	camera_size.width = 300;
+	camera_size.height = 300;
 	
 	//shift
 	float x = point.x + camera_size.width/2.0;
@@ -164,10 +200,16 @@ public:
 //world -> camera -> screen
 - (NSPoint)pointXYFrom3DPoint:(Point3D)point3d{
 	
-	point3d.rotateY(rad(-40)).rotateX(rad(40));
-	NSPoint pointXY = point3d.toCamera(600,1000);		//DO NOT CHANGE THIS!
+	//this works well
+	//point3d.rotateY(rad(-40)).rotateX(rad(_rotateX/*30*/));
+	point3d.rotateX(rad(_rotateX)).rotateY(rad(_rotateY)).rotateZ(rad(_rotateZ));
+	//point3d.rotateZ(rad(_rotateZ));
+	
+	//NSPoint pointXY = point3d.toCamera(600,1000);		//DO NOT CHANGE THIS!
+	NSPoint pointXY = point3d.toCamera_noPerspective();
 	pointXY = [self screenFromCamera:pointXY];
 	
+	//tweak shift
 	pointXY.x -= [self bounds].size.width/2.2;
 	pointXY.y -= 20;
 	return pointXY;
@@ -187,7 +229,7 @@ public:
 			db = -96;
 		}
 		
-		float y = db + 96 + 40/*visible factor*/;
+		float y = db + 96 + 0/*visible factor*/;
 		float z = i;
 		
 		//scale to world coordinate:[-100,100]
@@ -196,7 +238,6 @@ public:
 		float x = float(index) * 200/(_spectrums.size()) * 1.3/*scale factor*/;
 		
 		Point3D point3d(x,y,z);
-		point3d.shift(0,0,0);
 		
 		//now point3d is 3D point in world coordinate.
 		
@@ -207,10 +248,11 @@ public:
 			[path lineToPoint:point];
 		}
 	}
-	NSColor *color = [NSColor colorWithCalibratedRed:0.5
-											green:0.5 
-											blue:0.5
-											  alpha:1.0];
+	float red = 1.0f * index / _spectrums.size();
+	NSColor *color = [NSColor colorWithCalibratedRed:red/*0.5*/
+											green:0.1 
+											blue:0.1
+											  alpha:0.9];
 	[color set];
 	//[[NSGraphicsContext currentContext] setShouldAntialias:NO];
 	//[path stroke];
@@ -220,7 +262,7 @@ public:
 	{
 		float x,y,z;
 		x = float(index) * 200/(_spectrums.size()) * 1.3;
-		y = 40.0f;
+		y = 0.0f;
 		y = y * 200/96 * 0.2;
 		z = float(length)*100/length*2;
 		Point3D point3d(x,y,z);
@@ -231,7 +273,7 @@ public:
 	{
 		float x,y,z;
 		x = float(index) * 200/(_spectrums.size()) * 1.3;
-		y = 40.0f;
+		y = 0.0f;
 		y = y * 200/96 * 0.2;
 		z = 0.0f*100/length*2;
 		Point3D point3d(x,y,z);
@@ -305,7 +347,7 @@ public:
 		const vector<float> *left = [_processor left];
 		
 		if ((left == NULL) || (left->size() < FFT_SIZE)){
-			NSLog(@"not enough samples to get FFT");
+			//NSLog(@"not enough samples to get FFT");
 			return;
 		}
 		
@@ -324,16 +366,16 @@ public:
 	}
 
 	//draw axis
+	
 	[[NSColor yellowColor] set];
 	[self drawLineFrom:Point3D(0,-100,0) to:Point3D(0,100,0)];
-	[self drawLineFrom:Point3D(-200,0,0) to:Point3D(200,0,0)];
-	[self drawLineFrom:Point3D(0,0,-250) to:Point3D(0,0,250)];
+	[self drawLineFrom:Point3D(-100,0,0) to:Point3D(100,0,0)];
+	[self drawLineFrom:Point3D(0,0,-100) to:Point3D(0,0,100)];
 	
 	//draw axis label
-	[self drawText:@"time(x)" atPoint:Point3D(200,0,0)];
+	[self drawText:@"time(x)" atPoint:Point3D(100,0,0)];
 	[self drawText:@"dB(y)" atPoint:Point3D(0,100,0)];
-	[self drawText:@"freq(z)" atPoint:Point3D(0,0,250)];
-	
+	[self drawText:@"freq(z)" atPoint:Point3D(0,0,100)];
 	
 }
 

@@ -34,11 +34,16 @@
 	_processor = processor;
 	
 	//TODO: manage timer. only if there are no timer, timer should initialized.
-	[NSTimer scheduledTimerWithTimeInterval:0.01  
-										target:self
-								   selector: @selector(ontimer:)
-										userInfo:nil
-									repeats:true];
+	NSTimer *timer = [NSTimer timerWithTimeInterval:0.01
+											 target:self
+										   selector: @selector(ontimer:)
+										   userInfo:nil
+											repeats:true];
+	NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+	[runLoop addTimer:timer forMode:NSDefaultRunLoopMode];
+	
+	//fire the timer even in mouse tracking!
+	[runLoop addTimer:timer forMode:NSEventTrackingRunLoopMode];
 	
 }
 	
