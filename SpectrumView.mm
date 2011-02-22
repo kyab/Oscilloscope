@@ -29,7 +29,7 @@
 	[self setNeedsDisplay:YES];
 	
 	//TODO: manage timer. only if there are no timer, timer should initialized.
-	NSTimer *timer = [NSTimer timerWithTimeInterval:0.03
+	NSTimer *timer = [NSTimer timerWithTimeInterval:0.1
 											 target:self
 										   selector: @selector(ontimer:)
 										   userInfo:nil
@@ -54,7 +54,7 @@
 }*/
 
 - (void)drawRect:(NSRect)dirtyRect {
-	const int FFT_SIZE = 1024 * 2;
+	const int FFT_SIZE = 1024 * 4;
     [[NSColor blackColor] set];
 	NSRectFill([self bounds]);
 	
@@ -87,14 +87,28 @@
 	Timer timer; timer.start();
 	
 	NSBezierPath *path = [[NSBezierPath bezierPath] retain];
-	[path moveToPoint:NSMakePoint(0,0)];
 	for (int i = 0 ; i < spectrum.size() ; i++){
 		float amp = abs(spectrum[i])/spectrum.size();
-		float x = bounds.size.width*2 / spectrum.size() * i;
+		
+		//linear
+		//float x = bounds.size.width*2 / spectrum.size() * i;
+		
+		
+		//log
+		float freq = (float)i * 44100/spectrum.size();
+		float logFreq = std::log10(freq);
+		if (logFreq < 1.0f) logFreq = 0.0f;
+		float x = bounds.size.width/(std::log10(22050)-std::log10(10)) * logFreq;
+		x -= bounds.size.width/(std::log10(22050)-std::log10(10))*std::log10(10);
+		
 		
 		float db = 20 * std::log10(amp);
-		float y = (db+96) * (bounds.size.height)/96.0f ;
-		[path lineToPoint:NSMakePoint(x,y)];
+		float y = (db+96+30) * (bounds.size.height)/96.0f ;
+		if (i == 0){
+			[path moveToPoint:NSMakePoint(x,y)];
+		}else{
+			[path lineToPoint:NSMakePoint(x,y)];
+		}
 	}
 	[[NSColor yellowColor] set];
 	[[NSGraphicsContext currentContext] setShouldAntialias:NO];

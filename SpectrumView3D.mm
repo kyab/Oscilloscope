@@ -158,7 +158,7 @@ public:
 	[self setNeedsDisplay:YES];
 	
 	//TODO: manage timer instance, timer should initialized. only if there are no timer
-	NSTimer *timer = [NSTimer timerWithTimeInterval:1.0f/20
+	NSTimer *timer = [NSTimer timerWithTimeInterval:1.0f/10
 									 target:self
 								   selector: @selector(ontimer:)
 								   userInfo:nil
