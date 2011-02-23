@@ -147,11 +147,8 @@
 				EBD8A01F12FEA5390067E2C6 /* SpectrumView.mm */,
 				EB5B36E513011C69006E1B7E /* SpectrumView3D.h */,
 				EB5B36E613011C69006E1B7E /* SpectrumView3D.mm */,
-				EB357CD91315720700FD3EBF /* SpectrumView3D_mesh.h */,
-				EB357CDA1315720700FD3EBF /* SpectrumView3D_mesh.mm */,
 				EBF5B31C13057B6B0071C1EC /* 3d.h */,
 				EBF5B31D13057B6B0071C1EC /* 3d.mm */,
-				EB357C5E131568C800FD3EBF /* SecondWindowController.rb */,
 				EB6A8C5B12E8F18A000B710A /* Utils */,
 			);
 			name = Classes;
@@ -199,6 +196,7 @@
 		29B97314FDCFA39411CA2CEA /* Oscilloscope */ = {
 			isa = PBXGroup;
 			children = (
+				EBA4CA9113158660004103AF /* Concentrate_now! */,
 				172754AE1075979200D0347B /* Tests */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -246,6 +244,16 @@
 				EB74611C12E8A2BC000DB0FC /* RUtil.rb */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		EBA4CA9113158660004103AF /* Concentrate_now! */ = {
+			isa = PBXGroup;
+			children = (
+				EB357C5E131568C800FD3EBF /* SecondWindowController.rb */,
+				EB357CD91315720700FD3EBF /* SpectrumView3D_mesh.h */,
+				EB357CDA1315720700FD3EBF /* SpectrumView3D_mesh.mm */,
+			);
+			name = "Concentrate_now!";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

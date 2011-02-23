@@ -12,7 +12,8 @@ class SecondWindowController < NSWindowController
 	end 
 	
 	def setProcessor(processor)
-		@view.setProcessor(processor)
+		@processor = processor
+		NSLog("Processor obtained")
 	end
 	
 	def init
@@ -29,6 +30,7 @@ class SecondWindowController < NSWindowController
 	def windowDidLoad()	
 		#self.window.delegate = self
 		puts "windowDidLoad"
+		@view.setProcessor(@processor)
 	end
 	
 	def close()
