@@ -15,15 +15,13 @@
 typedef std::complex<double> Dcomplex;
 typedef std::vector<Dcomplex>  Spectrum;
 
-@interface SpectrumView3D : NSView {
+@interface SpectrumView3D_mesh : NSView {
 	id _processor;	//or sound buffer
 	std::deque<Spectrum> _spectrums;
 	
 	float _rotateX;
 	float _rotateY;
 	float _rotateZ;
-	
-	Boolean _enabled;
 	
 }
 
@@ -32,7 +30,6 @@ typedef std::vector<Dcomplex>  Spectrum;
 @property(assign)float rotateX;
 @property(assign)float rotateY;
 @property(assign)float rotateZ;
-@property(assign)Boolean enabled;
 
 @end
 

@@ -49,6 +49,9 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		EB357C9F13156ECC00FD3EBF /* SecondWindowController.rb in Resources */ = {isa = PBXBuildFile; fileRef = EB357C5E131568C800FD3EBF /* SecondWindowController.rb */; };
+		EB357CA013156ED400FD3EBF /* secondwindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB357C53131568B900FD3EBF /* secondwindow.xib */; };
+		EB357CDB1315720700FD3EBF /* SpectrumView3D_mesh.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB357CDA1315720700FD3EBF /* SpectrumView3D_mesh.mm */; };
 		EB5B36E713011C69006E1B7E /* SpectrumView3D.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB5B36E613011C69006E1B7E /* SpectrumView3D.mm */; };
 		EB6A8C5A12E8F17D000B710A /* OscilloView.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB6A8C5912E8F17D000B710A /* OscilloView.mm */; };
 		EB6BC09012E87550008D3C9E /* Controller.rb in Resources */ = {isa = PBXBuildFile; fileRef = EB6BC08F12E87550008D3C9E /* Controller.rb */; };
@@ -60,7 +63,7 @@
 		EB74614212E8AB6E000DB0FC /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB74614112E8AB6E000DB0FC /* AudioToolbox.framework */; };
 		EBD8A02012FEA5390067E2C6 /* fft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBD8A01C12FEA5390067E2C6 /* fft.cpp */; };
 		EBD8A02112FEA5390067E2C6 /* SpectrumView.mm in Sources */ = {isa = PBXBuildFile; fileRef = EBD8A01F12FEA5390067E2C6 /* SpectrumView.mm */; };
-		EBF5B31E13057B6B0071C1EC /* 3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF5B31D13057B6B0071C1EC /* 3d.cpp */; };
+		EBF5B31E13057B6B0071C1EC /* 3d.mm in Sources */ = {isa = PBXBuildFile; fileRef = EBF5B31D13057B6B0071C1EC /* 3d.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -89,6 +92,10 @@
 		4DE3BE130D8651D900ECA448 /* MacRuby.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MacRuby.framework; path = /Library/Frameworks/MacRuby.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Oscilloscope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Oscilloscope.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB357C53131568B900FD3EBF /* secondwindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = secondwindow.xib; sourceTree = "<group>"; };
+		EB357C5E131568C800FD3EBF /* SecondWindowController.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = SecondWindowController.rb; sourceTree = "<group>"; };
+		EB357CD91315720700FD3EBF /* SpectrumView3D_mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumView3D_mesh.h; sourceTree = "<group>"; };
+		EB357CDA1315720700FD3EBF /* SpectrumView3D_mesh.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpectrumView3D_mesh.mm; sourceTree = "<group>"; };
 		EB5B36E513011C69006E1B7E /* SpectrumView3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumView3D.h; sourceTree = "<group>"; };
 		EB5B36E613011C69006E1B7E /* SpectrumView3D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpectrumView3D.mm; sourceTree = "<group>"; };
 		EB6A8C5812E8F17D000B710A /* OscilloView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscilloView.h; sourceTree = "<group>"; };
@@ -107,7 +114,7 @@
 		EBD8A01E12FEA5390067E2C6 /* SpectrumView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumView.h; sourceTree = "<group>"; };
 		EBD8A01F12FEA5390067E2C6 /* SpectrumView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpectrumView.mm; sourceTree = "<group>"; };
 		EBF5B31C13057B6B0071C1EC /* 3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = 3d.h; sourceTree = "<group>"; };
-		EBF5B31D13057B6B0071C1EC /* 3d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = 3d.cpp; sourceTree = "<group>"; };
+		EBF5B31D13057B6B0071C1EC /* 3d.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = 3d.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,8 +147,11 @@
 				EBD8A01F12FEA5390067E2C6 /* SpectrumView.mm */,
 				EB5B36E513011C69006E1B7E /* SpectrumView3D.h */,
 				EB5B36E613011C69006E1B7E /* SpectrumView3D.mm */,
+				EB357CD91315720700FD3EBF /* SpectrumView3D_mesh.h */,
+				EB357CDA1315720700FD3EBF /* SpectrumView3D_mesh.mm */,
 				EBF5B31C13057B6B0071C1EC /* 3d.h */,
-				EBF5B31D13057B6B0071C1EC /* 3d.cpp */,
+				EBF5B31D13057B6B0071C1EC /* 3d.mm */,
+				EB357C5E131568C800FD3EBF /* SecondWindowController.rb */,
 				EB6A8C5B12E8F18A000B710A /* Utils */,
 			);
 			name = Classes;
@@ -214,6 +224,7 @@
 				2BFA9DA510CDF852007972A1 /* MainMenu.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				EB357C53131568B900FD3EBF /* secondwindow.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -296,6 +307,8 @@
 				2BFA9DA710CDF852007972A1 /* MainMenu.xib in Resources */,
 				EB6BC09012E87550008D3C9E /* Controller.rb in Resources */,
 				EB74611D12E8A2BC000DB0FC /* RUtil.rb in Resources */,
+				EB357C9F13156ECC00FD3EBF /* SecondWindowController.rb in Resources */,
+				EB357CA013156ED400FD3EBF /* secondwindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,7 +368,8 @@
 				EBD8A02012FEA5390067E2C6 /* fft.cpp in Sources */,
 				EBD8A02112FEA5390067E2C6 /* SpectrumView.mm in Sources */,
 				EB5B36E713011C69006E1B7E /* SpectrumView3D.mm in Sources */,
-				EBF5B31E13057B6B0071C1EC /* 3d.cpp in Sources */,
+				EBF5B31E13057B6B0071C1EC /* 3d.mm in Sources */,
+				EB357CDB1315720700FD3EBF /* SpectrumView3D_mesh.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

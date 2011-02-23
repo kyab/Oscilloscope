@@ -7,5 +7,8 @@
  *
  */
 
-#include "3d.h"
+#import "3d.h"
 
+float rad(float degree){
+	return 2 * M_PI/360 * degree;
+}

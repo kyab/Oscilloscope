@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "SpectrumView3D.h"
+#import "SpectrumView3D_mesh.h"
 #include <vector>
 #include <complex>
 #include <iostream>
@@ -22,12 +22,13 @@
 static const int FFT_SIZE = 256 * 2;
 static const int SPECTRUM3D_COUNT = 40;
 
+
+
 //world corrdinate is basically [-100 100] for x,y, and z
 
-@implementation SpectrumView3D
+@implementation SpectrumView3D_mesh
 
 @synthesize rotateX = _rotateX,rotateY = _rotateY, rotateZ = _rotateZ;
-@synthesize enabled = _enabled;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
@@ -36,8 +37,7 @@ static const int SPECTRUM3D_COUNT = 40;
 		_rotateX = 0;// 30;
 		_rotateY = 0;//-40;
 		_rotateZ = 0;
-		_enabled = YES;
-								 
+		
     }
     return self;
 }
@@ -46,10 +46,10 @@ static const int SPECTRUM3D_COUNT = 40;
 	
 	//TODO: manage timer instance, timer should initialized. only if there are no timer
 	NSTimer *timer = [NSTimer timerWithTimeInterval:1.0f/10
-									 target:self
-								   selector: @selector(ontimer:)
-								   userInfo:nil
-									repeats:true];
+											 target:self
+										   selector: @selector(ontimer:)
+										   userInfo:nil
+											repeats:true];
 	NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
 	[runLoop addTimer:timer forMode:NSDefaultRunLoopMode];
 	
@@ -106,7 +106,7 @@ static const int SPECTRUM3D_COUNT = 40;
 
 -(void)drawSpectrum:(const Spectrum &)spectrum index:(int)index{
 	NSBezierPath *path = [[NSBezierPath bezierPath] retain];
-
+	
 	int length = spectrum.size()/2;
 	for (int i = 0 ; i < length ; i++){
 		float amp = abs(spectrum[i])/spectrum.size();
@@ -137,9 +137,9 @@ static const int SPECTRUM3D_COUNT = 40;
 	}
 	float red = 1.0f * index / _spectrums.size();
 	NSColor *color = [NSColor colorWithCalibratedRed:red/*0.5*/
-											green:0.1 
-											blue:0.1
-											  alpha:0.9];
+											   green:0.1 
+												blue:0.1
+											   alpha:0.9];
 	[color set];
 	//[[NSGraphicsContext currentContext] setShouldAntialias:NO];
 	//[path stroke];
@@ -168,6 +168,8 @@ static const int SPECTRUM3D_COUNT = 40;
 		[path lineToPoint:zeroAtMinFreq];
 	}
 	
+	
+	
 	[path closePath];
 	[path fill];
 	[[NSColor yellowColor] set];
@@ -179,7 +181,7 @@ static const int SPECTRUM3D_COUNT = 40;
 - (void)drawLineFrom:(Point3D)from to:(Point3D)to{
 	NSPoint from_xy = [self pointXYFrom3DPoint:from];
 	NSPoint to_xy = [self pointXYFrom3DPoint:to];
-
+	
 	[NSBezierPath strokeLineFromPoint:from_xy toPoint:to_xy];
 }
 
@@ -193,7 +195,7 @@ static const int SPECTRUM3D_COUNT = 40;
 				   forKey:NSForegroundColorAttributeName];
 	
 	NSAttributedString *at_text = [[NSAttributedString alloc] initWithString: text
-	                                                        attributes: attributes];
+																  attributes: attributes];
     
     NSPoint point_xy = [self pointXYFrom3DPoint:point3d];
     [at_text drawAtPoint:point_xy];
@@ -202,7 +204,7 @@ static const int SPECTRUM3D_COUNT = 40;
 
 
 - (void)drawRect:(NSRect)dirtyRect {
-
+	
     [[NSColor blackColor] set];
 	NSRectFill([self bounds]);
 	
@@ -211,38 +213,35 @@ static const int SPECTRUM3D_COUNT = 40;
 	using namespace std;
 	
 	//draw spectrum(s).
-	
-	if (_enabled){
-		if (_spectrums.size() > SPECTRUM3D_COUNT){
-			_spectrums.pop_front();
-		}
-		_spectrums.push_back(Spectrum(FFT_SIZE,0.0));
-		
-		{
-			Spectrum &spectrum = _spectrums.back();
-			vector<complex<double> > buffer = vector<complex<double> >(FFT_SIZE, 0.0);
-			const vector<float> *left = [_processor left];
-			
-			if ((left == NULL) || (left->size() < FFT_SIZE)){
-				//NSLog(@"not enough samples to get FFT");
-				return;
-			}
-			
-			//get the fft of latest FFT_SIZE samples.
-			@synchronized( _processor ){
-				int offset = left->size() - FFT_SIZE;
-				for (int i = 0 ; i < FFT_SIZE; i++){
-					buffer[i] = (*left)[i + offset];
-				}
-			}
-			fastForwardFFT(&buffer[0], FFT_SIZE, &(spectrum[0]));
-		}
-		
-		for(int index = 0; index < _spectrums.size(); index++){
-			[self drawSpectrum:_spectrums[index] index:index];
-		}
+	if (_spectrums.size() > SPECTRUM3D_COUNT){
+		_spectrums.pop_front();
 	}
+	_spectrums.push_back(Spectrum(FFT_SIZE,0.0));
+	
+	{
+		Spectrum &spectrum = _spectrums.back();
+		vector<complex<double> > buffer = vector<complex<double> >(FFT_SIZE, 0.0);
+		const vector<float> *left = [_processor left];
 		
+		if ((left == NULL) || (left->size() < FFT_SIZE)){
+			//NSLog(@"not enough samples to get FFT");
+			return;
+		}
+		
+		//get the fft of latest FFT_SIZE samples.
+		@synchronized( _processor ){
+			int offset = left->size() - FFT_SIZE;
+			for (int i = 0 ; i < FFT_SIZE; i++){
+				buffer[i] = (*left)[i + offset];
+			}
+		}
+		fastForwardFFT(&buffer[0], FFT_SIZE, &(spectrum[0]));
+	}
+	
+	for(int index = 0; index < _spectrums.size(); index++){
+		[self drawSpectrum:_spectrums[index] index:index];
+	}
+	
 	//draw axis
 	
 	[[NSColor yellowColor] set];
