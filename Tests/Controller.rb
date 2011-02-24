@@ -4,6 +4,9 @@
 # Created by koji on 11/01/20.
 # Copyright 2011 __MyCompanyName__. All rights reserved.
 
+#class Controller : 
+#Application's main controller
+
 require "SecondWindowController"
 
 class Controller
@@ -18,7 +21,7 @@ class Controller
 		@slider.setMinValue(0.01)
 		@slider.setMaxValue(5.00)
 		
-		@secondWindowController ||= SecondWindowController.alloc.init
+		@secondWindowController = SecondWindowController.alloc.init
 	end
 	
 	def initProcessor(sender)
@@ -41,7 +44,7 @@ class Controller
 	
 	def start(sender)
 		@processor.start
-	
+		@secondWindowController.showWindow(self)
 	end
 	
 	def stop(sender)
@@ -61,6 +64,12 @@ class Controller
 			@secondWindowController.close()
 			sender.state = NSOffState
 		end
+	end
+	
+		#delegation method
+	def applicationShouldTerminateAfterLastWindowClosed(sender)
+		puts "last window closed"
+		return true
 	end
 
 end

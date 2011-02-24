@@ -1688,6 +1688,14 @@
 					</object>
 					<int key="connectionID">470</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="1050"/>
+						<reference key="destination" ref="892196459"/>
+					</object>
+					<int key="connectionID">471</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -3001,9 +3009,9 @@
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{-139, 68}, {793, 711}}</string>
+					<string>{{0, 68}, {793, 711}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{-139, 68}, {793, 711}}</string>
+					<string>{{0, 68}, {793, 711}}</string>
 					<integer value="1"/>
 					<string>{{33, 99}, {480, 360}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3138,7 +3146,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">470</int>
+			<int key="maxID">471</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3150,6 +3158,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>applicationShouldTerminateAfterLastWindowClosed:</string>
 							<string>initProcessor:</string>
 							<string>showSecondWindow:</string>
 							<string>start:</string>
@@ -3157,6 +3166,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3167,6 +3177,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>applicationShouldTerminateAfterLastWindowClosed:</string>
 							<string>initProcessor:</string>
 							<string>showSecondWindow:</string>
 							<string>start:</string>
@@ -3174,6 +3185,10 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">applicationShouldTerminateAfterLastWindowClosed:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 							<object class="IBActionInfo">
 								<string key="name">initProcessor:</string>
 								<string key="candidateClassName">id</string>

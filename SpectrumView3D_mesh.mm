@@ -19,7 +19,7 @@
 #import "3d.h"
 
 
-static const int FFT_SIZE = 256 * 2;
+static const int FFT_SIZE = 128;
 static const int SPECTRUM3D_COUNT = 40;
 
 
@@ -34,9 +34,9 @@ static const int SPECTRUM3D_COUNT = 40;
     self = [super initWithFrame:frame];
     if (self) {
 		_processor = nil;
-		_rotateX = 0;// 30;
-		_rotateY = 0;//-40;
-		_rotateZ = 0;
+		_rotateX = 64.96;// 30;
+		_rotateY = -10.8;//-40;
+		_rotateZ = -21.6;
 		
     }
     return self;
@@ -87,12 +87,8 @@ static const int SPECTRUM3D_COUNT = 40;
 //world -> camera -> screen
 - (NSPoint)pointXYFrom3DPoint:(Point3D)point3d{
 	
-	//this works well
-	//point3d.rotateY(rad(-40)).rotateX(rad(_rotateX/*30*/));
 	point3d.rotateX(rad(_rotateX)).rotateY(rad(_rotateY)).rotateZ(rad(_rotateZ));
-	//point3d.rotateZ(rad(_rotateZ));
-	
-	//NSPoint pointXY = point3d.toCamera(600,1000);		//DO NOT CHANGE THIS!
+
 	NSPoint pointXY = point3d.toCamera_noPerspective();
 	pointXY = [self screenFromCamera:pointXY];
 	
@@ -102,7 +98,35 @@ static const int SPECTRUM3D_COUNT = 40;
 	return pointXY;
 }
 
-//TODO: handling nyquist refrection
+
+//周波数毎のライン
+-(void)drawVerticalSpectrum{
+	for (int f = 0 ; f < FFT_SIZE/2; f+=1){
+		NSBezierPath *path = [[NSBezierPath bezierPath] retain];
+		for (int i=0; i < _spectrums.size(); i++){
+			float amp = abs(_spectrums[i][f])/FFT_SIZE;
+			float db = 20 * std::log10(amp);
+			if (db < -95){ db = -96;}
+			
+			float y = db + 96 + 0;
+			float z = f;
+			z = z * 100/FFT_SIZE*4;
+			y = y * 200/96 * 0.4;
+			float x = float(i) * 200/(_spectrums.size())*1.3;
+			
+			Point3D point3d(x,y,z);
+			NSPoint point = [self pointXYFrom3DPoint:point3d];
+			if (i == 0){
+				[path moveToPoint:point];
+			}else{
+				[path lineToPoint:point];
+			}
+		}
+		[[NSColor yellowColor] set];
+		[path stroke];
+	}
+	
+}
 
 -(void)drawSpectrum:(const Spectrum &)spectrum index:(int)index{
 	NSBezierPath *path = [[NSBezierPath bezierPath] retain];
@@ -121,7 +145,7 @@ static const int SPECTRUM3D_COUNT = 40;
 		
 		//scale to world coordinate:[-100,100]
 		z = z * 100/length*2/*scale factor*/;
-		y = y * 200/96 * 0.2/*scale factor*/;
+		y = y * 200/96 * 0.4/*scale factor*/;
 		float x = float(index) * 200/(_spectrums.size()) * 1.3/*scale factor*/;
 		
 		Point3D point3d(x,y,z);
@@ -141,16 +165,14 @@ static const int SPECTRUM3D_COUNT = 40;
 												blue:0.1
 											   alpha:0.9];
 	[color set];
-	//[[NSGraphicsContext currentContext] setShouldAntialias:NO];
-	//[path stroke];
-	
-	//TODO: add lines to complete path
+
 	//last point to -96 decibel
+	/*
 	{
 		float x,y,z;
 		x = float(index) * 200/(_spectrums.size()) * 1.3;
 		y = 0.0f;
-		y = y * 200/96 * 0.2;
+		y = y * 200/96 * 0.4;
 		z = float(length)*100/length*2;
 		Point3D point3d(x,y,z);
 		NSPoint zeroAtMaxFreq = [self pointXYFrom3DPoint:point3d];
@@ -161,17 +183,17 @@ static const int SPECTRUM3D_COUNT = 40;
 		float x,y,z;
 		x = float(index) * 200/(_spectrums.size()) * 1.3;
 		y = 0.0f;
-		y = y * 200/96 * 0.2;
+		y = y * 200/96 * 0.4;
 		z = 0.0f*100/length*2;
 		Point3D point3d(x,y,z);
 		NSPoint zeroAtMinFreq = [self pointXYFrom3DPoint:point3d];
 		[path lineToPoint:zeroAtMinFreq];
-	}
+	}*/
 	
 	
 	
-	[path closePath];
-	[path fill];
+	//[path closePath];
+	//[path fill];
 	[[NSColor yellowColor] set];
 	[path stroke];
 	
@@ -239,9 +261,10 @@ static const int SPECTRUM3D_COUNT = 40;
 	}
 	
 	for(int index = 0; index < _spectrums.size(); index++){
+		
 		[self drawSpectrum:_spectrums[index] index:index];
 	}
-	
+	[self drawVerticalSpectrum]; 
 	//draw axis
 	
 	[[NSColor yellowColor] set];
@@ -250,9 +273,9 @@ static const int SPECTRUM3D_COUNT = 40;
 	[self drawLineFrom:Point3D(0,0,-100) to:Point3D(0,0,100)];
 	
 	//draw axis label
-	[self drawText:@"time(x)" atPoint:Point3D(100,0,0)];
+	[self drawText:@"time(x)" atPoint:Point3D(200,0,0)];
 	[self drawText:@"dB(y)" atPoint:Point3D(0,100,0)];
-	[self drawText:@"freq(z)" atPoint:Point3D(0,0,100)];
+	[self drawText:@"freq(z)" atPoint:Point3D(0,0,200)];
 	
 }
 
