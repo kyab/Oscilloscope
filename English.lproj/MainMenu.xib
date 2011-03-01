@@ -12,7 +12,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="372"/>
+			<integer value="296"/>
+			<integer value="414"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -665,6 +666,14 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="807125248"/>
 								</object>
+								<object class="NSMenuItem" id="459514260">
+									<reference key="NSMenu" ref="466310130"/>
+									<string key="NSTitle">OctaveWindow</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="807125248"/>
+								</object>
 								<object class="NSMenuItem" id="102151532">
 									<reference key="NSMenu" ref="466310130"/>
 									<string key="NSTitle">Show Toolbar</string>
@@ -934,30 +943,30 @@
 												<object class="NSCustomView" id="759316053">
 													<reference key="NSNextResponder" ref="32499616"/>
 													<int key="NSvFlags">256</int>
-													<string key="NSFrameSize">{588, 81}</string>
+													<string key="NSFrameSize">{588, 116}</string>
 													<reference key="NSSuperview" ref="32499616"/>
 													<string key="NSClassName">OscilloView</string>
 												</object>
 												<object class="NSCustomView" id="927428552">
 													<reference key="NSNextResponder" ref="32499616"/>
 													<int key="NSvFlags">256</int>
-													<string key="NSFrame">{{0, 90}, {588, 32}}</string>
+													<string key="NSFrame">{{0, 125}, {588, 385}}</string>
 													<reference key="NSSuperview" ref="32499616"/>
 													<string key="NSClassName">SpectrumView</string>
 												</object>
 											</object>
-											<string key="NSFrameSize">{588, 122}</string>
+											<string key="NSFrameSize">{588, 510}</string>
 											<reference key="NSSuperview" ref="486120655"/>
 										</object>
 									</object>
-									<string key="NSFrameSize">{588, 122}</string>
+									<string key="NSFrameSize">{588, 510}</string>
 									<reference key="NSSuperview" ref="49267053"/>
 									<string key="NSClassName">NSView</string>
 								</object>
 								<object class="NSCustomView" id="905860806">
 									<reference key="NSNextResponder" ref="49267053"/>
 									<int key="NSvFlags">256</int>
-									<string key="NSFrame">{{0, 131}, {588, 489}}</string>
+									<string key="NSFrame">{{0, 519}, {588, 101}}</string>
 									<reference key="NSSuperview" ref="49267053"/>
 									<string key="NSClassName">SpectrumView3D</string>
 								</object>
@@ -1696,6 +1705,14 @@
 					</object>
 					<int key="connectionID">471</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">showOctaveWindow:</string>
+						<reference key="source" ref="892196459"/>
+						<reference key="destination" ref="459514260"/>
+					</object>
+					<int key="connectionID">473</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -2187,6 +2204,7 @@
 							<reference ref="102151532"/>
 							<reference ref="237841660"/>
 							<reference ref="733608786"/>
+							<reference ref="459514260"/>
 						</object>
 						<reference key="parent" ref="586577488"/>
 					</object>
@@ -2621,6 +2639,11 @@
 						<reference key="object" ref="886193287"/>
 						<reference key="parent" ref="489914781"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">472</int>
+						<reference key="object" ref="459514260"/>
+						<reference key="parent" ref="466310130"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -2828,6 +2851,7 @@
 					<string>466.IBPluginDependency</string>
 					<string>468.IBPluginDependency</string>
 					<string>469.IBPluginDependency</string>
+					<string>472.IBPluginDependency</string>
 					<string>5.IBPluginDependency</string>
 					<string>5.ImportedFromIB2</string>
 					<string>56.IBPluginDependency</string>
@@ -2979,13 +3003,13 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{525, 802}, {197, 73}}</string>
-					<string>{{291, 746}, {478, 20}}</string>
+					<string>{{47, 807}, {478, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{74, 862}</string>
 					<string>{{6, 978}, {478, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{318, 764}, {231, 63}}</string>
+					<string>{{343, 724}, {231, 83}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{475, 832}, {234, 43}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3009,9 +3033,9 @@
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{0, 68}, {793, 711}}</string>
+					<string>{{57, 144}, {793, 711}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{0, 68}, {793, 711}}</string>
+					<string>{{57, 144}, {793, 711}}</string>
 					<integer value="1"/>
 					<string>{{33, 99}, {480, 360}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3093,6 +3117,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
@@ -3146,7 +3171,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">471</int>
+			<int key="maxID">473</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3160,12 +3185,14 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>applicationShouldTerminateAfterLastWindowClosed:</string>
 							<string>initProcessor:</string>
+							<string>showOctaveWindow:</string>
 							<string>showSecondWindow:</string>
 							<string>start:</string>
 							<string>stop:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3179,6 +3206,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>applicationShouldTerminateAfterLastWindowClosed:</string>
 							<string>initProcessor:</string>
+							<string>showOctaveWindow:</string>
 							<string>showSecondWindow:</string>
 							<string>start:</string>
 							<string>stop:</string>
@@ -3191,6 +3219,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">initProcessor:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showOctaveWindow:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">

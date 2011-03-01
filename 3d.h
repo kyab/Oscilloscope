@@ -96,6 +96,7 @@ public:
 		//return NSMakePoint(mX, m
 	}
 	
+	//平行投影
 	NSPoint toCamera_noPerspective(){
 		return NSMakePoint(mX,mY);
 	}

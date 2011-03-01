@@ -22,6 +22,7 @@ class Controller
 		@slider.setMaxValue(5.00)
 		
 		@secondWindowController = SecondWindowController.alloc.init
+		@octaveWindowController = OctaveWindowController.alloc.init
 	end
 	
 	def initProcessor(sender)
@@ -31,6 +32,7 @@ class Controller
 			@view3.setProcessor(@processor)
 			
 			@secondWindowController.setProcessor(@processor)
+			@octaveWindowController.setProcessor(@processor)
 		else
 			NSLog("failed to init processor")
 		end
@@ -44,7 +46,8 @@ class Controller
 	
 	def start(sender)
 		@processor.start
-		@secondWindowController.showWindow(self)
+		#@secondWindowController.showWindow(self)
+		@octaveWindowController.showWindow(self)
 	end
 	
 	def stop(sender)
@@ -53,15 +56,23 @@ class Controller
 	end
 
 	def showSecondWindow(sender)
+		showWindow(sender, @secondWindowController)
+	end
+	
+	def showOctaveWindow(sender)
+		showWindow(sender, @octaveWindowController)
+	end
+	
+	def showWindow(sender, windowController)
 		if (sender.class != NSMenuItem)
-			NSLog("something wrong showSecondWindow called from outside of NSMenu")
+			NSLog("something wrong showWindow called from outside of NSMenu")
 		end
 		
 		if (sender.state == NSOffState)
-			@secondWindowController.showWindow(self)
+			windowController.showWindow(self)
 			sender.state = NSOnState
 		else
-			@secondWindowController.close()
+			windowController.close()
 			sender.state = NSOffState
 		end
 	end

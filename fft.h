@@ -13,6 +13,7 @@
 
 using namespace std;
 
+//original samples may OK to be a double *
 void slowForwardFFT(complex<double> *samples, int length, complex<double> *result);
 void fastForwardFFT(complex<double> *samples, int length, complex<double> *result);
 void DFT(complex<double> *samples, int length, complex<double> *result);

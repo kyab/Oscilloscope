@@ -36,7 +36,7 @@ static const int SPECTRUM3D_COUNT = 40;
 		_rotateX = 0;// 30;
 		_rotateY = 0;//-40;
 		_rotateZ = 0;
-		_enabled = YES;
+		_enabled = NO;
 								 
     }
     return self;

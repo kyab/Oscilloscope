@@ -91,16 +91,16 @@
 		float amp = abs(spectrum[i])/spectrum.size();
 		
 		//linear
-		//float x = bounds.size.width*2 / spectrum.size() * i;
+		float x = bounds.size.width / spectrum.size() * i;
 		
 		
 		//log
-		float freq = (float)i * 44100/spectrum.size();
+		/*float freq = (float)i * 44100/spectrum.size();
 		float logFreq = std::log10(freq);
 		if (logFreq < 1.0f) logFreq = 0.0f;
 		float x = bounds.size.width/(std::log10(22050)-std::log10(10)) * logFreq;
 		x -= bounds.size.width/(std::log10(22050)-std::log10(10))*std::log10(10);
-		
+		*/
 		
 		float db = 20 * std::log10(amp);
 		float y = (db+96+30) * (bounds.size.height)/96.0f ;

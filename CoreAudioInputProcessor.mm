@@ -330,7 +330,7 @@ static OSStatus InputProc(
 	float *temp_right = (float *)(_tempBufferList->mBuffers[1].mData);
 	
 	static UInt32 count = 0;
-	if ((count % 100) == 0){
+	if ((count % 1000) == 0){
 		
 		NSLog(@"input: %d frames, first sample is %+6.5f", inNumberFrames, temp_left[0]);		//-0.11096, +0.22430,, etc
 	}

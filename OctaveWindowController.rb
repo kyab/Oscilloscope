@@ -1,11 +1,10 @@
-# SecondWindowController.rb
-# WindowControllerRuby
+# OctaveWindowController.rb
+# Oscilloscope
 #
-# Created by koji on 11/02/24.
+# Created by koji on 11/03/02.
 # Copyright 2011 __MyCompanyName__. All rights reserved.
 
-class SecondWindowController < NSWindowController
-	
+class OctaveWindowController < NSWindowController
 	attr_accessor :view
 	def awakeFromNib
 		
@@ -23,7 +22,7 @@ class SecondWindowController < NSWindowController
 	end
 	
 	def init
-		super.initWithWindowNibName("secondwindow")
+		super.initWithWindowNibName("octavewindow")
 		NSLog "#{self.class} initialized"
 		self
 	end
@@ -52,4 +51,4 @@ class SecondWindowController < NSWindowController
 	end
 	
 end
-		
+
