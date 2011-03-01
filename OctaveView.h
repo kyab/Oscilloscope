@@ -17,8 +17,8 @@ typedef std::vector<Dcomplex>  Spectrum;
 
 @interface OctaveView : NSView {
 	id _processor;	//or sound buffer
-	int _start;
-	int _stop;
+	int _start_freq;
+	int _stop_freq;
 	
 }
 

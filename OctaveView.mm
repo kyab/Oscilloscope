@@ -23,8 +23,8 @@ static double linearInterporation(double x0, double y0, double x1, double y1, do
     if (self) {
         // Initialization code here.
 		_processor = nil;
-		_start = 1046;	//C5
-		_stop = _start * 2;
+		_start_freq = 1046;	//C5
+		_stop_freq = _start_freq * 2;
     }
     return self;
 }
@@ -115,7 +115,7 @@ static double linearInterporation(double x0, double y0, double x1, double y1, do
 -(void)drawLabel{
 	
 	std::vector<float>freqs;
-	freqs.push_back(_start);
+	freqs.push_back(_start_freq);
 	
 	float note_freq_rate = 1.0594630943593f;
 	for (int i=1; i <= 12 ;i++){
@@ -124,9 +124,9 @@ static double linearInterporation(double x0, double y0, double x1, double y1, do
 	}
 	
 	for (int i = 0; i < 12 ; i++){
-		float pixel_per_freq = self.bounds.size.width / (_stop - _start);
+		float pixel_per_freq = self.bounds.size.width / (_stop_freq - _start_freq);
 		float f = freqs[i];
-		float x = (f - _start) * pixel_per_freq ;
+		float x = (f - _start_freq) * pixel_per_freq ;
 		[NSBezierPath strokeLineFromPoint:NSMakePoint(x,0)
 								   toPoint:NSMakePoint(x,self.bounds.size.height)];
 	}
@@ -144,7 +144,7 @@ static double linearInterporation(double x0, double y0, double x1, double y1, do
 	
 	NSBezierPath *path = [[NSBezierPath bezierPath] retain];
 	
-	int start = _start, stop = _stop ;
+	int start = _start_freq, stop = _stop_freq ;
 	for (int f = start; f < stop ; f+=2){
 		double amp = [self calculateAmpForFreq:f fromSpectrum:spectrum];
 		double db = 20 * std::log10(amp);
@@ -158,7 +158,6 @@ static double linearInterporation(double x0, double y0, double x1, double y1, do
 			[path lineToPoint:NSMakePoint(x,y)];
 		}
 	}
-	
 	
 	[[NSColor yellowColor] set];
 	[[NSGraphicsContext currentContext] setShouldAntialias:NO];
