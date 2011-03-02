@@ -14,7 +14,6 @@ class Controller
 	attr_accessor :showtime
 	attr_accessor :slider
 	
-	
 	def awakeFromNib()
 		@processor = CoreAudioInputProcessor.new
 		setShowtime(0.5)
@@ -23,6 +22,9 @@ class Controller
 		
 		@secondWindowController = SecondWindowController.alloc.init
 		@octaveWindowController = OctaveWindowController.alloc.init
+		
+		initProcessor(nil)
+		start(nil)
 	end
 	
 	def initProcessor(sender)

@@ -324,7 +324,7 @@ static OSStatus InputProc(
 									   _tempBufferList	//TODO: check Buffer.mData with NULL may OK..
 									   ); 
 	if (result != noErr){
-		NSLog(@"failed to AudioUnitRender");
+		NSLog(@"failed to AudioUnitRender, err = %lu", result);
 	}
 	float *temp_left = (float *)(_tempBufferList->mBuffers[0].mData);
 	float *temp_right = (float *)(_tempBufferList->mBuffers[1].mData);

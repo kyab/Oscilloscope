@@ -10,11 +10,39 @@
 #include "fft.h"
 #include <math.h>
 
+template <typename T>
+class SimpleRange{
+public:
+	SimpleRange(const T &start , const T &end){
+		m_start = start;
+		m_end = end;
+	}
+	
+	T start(){
+		return m_start;
+	}
+	
+	T end(){
+		return m_end;
+	}
+	
+	T range(){
+		return m_end - m_start;
+	}
+	
+private:
+	T m_start;
+	T m_end;
+};
+
+
 static double linearInterporation(double x0, double y0, double x1, double y1, double x){
 	double rate = (x - x0) / (x1 - x0);
 	double y = (1.0 - rate)*y0 + rate*y1;
 	return y;
 }
+	
+static const int FFT_SIZE = 1024 * 16;
 	
 @implementation OctaveView
 
@@ -23,8 +51,9 @@ static double linearInterporation(double x0, double y0, double x1, double y1, do
     if (self) {
         // Initialization code here.
 		_processor = nil;
-		_start_freq = 1046;	//C5
+		_start_freq = 261.626f;	//C3
 		_stop_freq = _start_freq * 2;
+		_spectrum = std::vector<Dcomplex>(FFT_SIZE, 0.0);
     }
     return self;
 }
@@ -86,8 +115,6 @@ static double linearInterporation(double x0, double y0, double x1, double y1, do
 	double amp_right = 0;
 	//find the neaest 
 	
-	//TODO:ここの計算がめちゃくちゃ。書きなおし！！
-	
 	//get neaest index
 	//double freq_per_index = SAMPLING_RATE / spectrum.size()
 	int i = static_cast<int> (floor(freq / (SAMPLING_RATE/spectrum.size())));
@@ -123,6 +150,7 @@ static double linearInterporation(double x0, double y0, double x1, double y1, do
 		//NSLog(@"freq:%f[Hz]", freqs[i]);
 	}
 	
+	/*linear
 	for (int i = 0; i < 12 ; i++){
 		float pixel_per_freq = self.bounds.size.width / (_stop_freq - _start_freq);
 		float f = freqs[i];
@@ -130,38 +158,77 @@ static double linearInterporation(double x0, double y0, double x1, double y1, do
 		[NSBezierPath strokeLineFromPoint:NSMakePoint(x,0)
 								   toPoint:NSMakePoint(x,self.bounds.size.height)];
 	}
+	*/
+	//log
+	[[NSColor blueColor] set];
+	for (int i = 0 ; i < 12 ; i++){
+		float f = freqs[i];
+		float flog = std::log10(f);
+		
+		float freq_range_log = std::log10(_stop_freq) - std::log10(_start_freq);
+		float pixel_per_freq_log = self.bounds.size.width / freq_range_log;
+		float x = (flog -  std::log10(_start_freq)) * pixel_per_freq_log;
+		[NSBezierPath strokeLineFromPoint:NSMakePoint(x,0)
+								  toPoint:NSMakePoint(x,self.bounds.size.height)];
+	}		
+		
 }
-
+	
+-(NSBezierPath *)makeLineForOctave:(int)octave{
+	
+	static const double C3 = 261.626f;
+	SimpleRange<float> freq_range = SimpleRange<float>(C3 * (1.0f + octave), C3 * (1.0f + octave)*2);
+	float freq_range_log = std::log10(freq_range.end()) - std::log10(freq_range.start());
+	float pixel_per_freq_log = self.bounds.size.width / freq_range_log;
+	
+	NSBezierPath *path = [[NSBezierPath bezierPath] retain];
+		
+	//TODO: 横に1オクターブだと狭いかもしれない.3オクターブくらい表示させる？？
+	//TODO: ピークが弱いような気がする。単純な線形補完を使ってるからか？
+	
+	static const int RESOLUTION = 1200;		//how many points to draw in each octave?
+	for (int i = 0 ; i < RESOLUTION ; i++){
+		float freq = i * freq_range.range()/RESOLUTION + freq_range.start();
+		
+		double amp = [self calculateAmpForFreq:freq fromSpectrum:_spectrum];
+		double db = 20 * std::log10(amp);
+		//if (db < -180.0f) db = -180.0f;	//
+		float y = (db+96+20) * (self.bounds.size.height) / (96.0+20.0f);
+		
+		float flog = std::log10(freq);
+		float x = (flog -  std::log10(freq_range.start())) * pixel_per_freq_log;
+		if (i == 0){
+			[path moveToPoint:NSMakePoint(x,y)];
+		}else{
+			
+			[path lineToPoint:NSMakePoint(x,y)];
+		}		
+	}
+	return path;
+}
+	
 -(void)drawOctaves{
 	if (_processor == nil ) return;
 	
-	static const int FFT_SIZE = 1024 * 16;
+	//getting spectrum from our processor.
+	[self getCurrentSpectrum:_spectrum fftSize:_spectrum.size()];
 	
-	using namespace std;
-	
-	static Spectrum spectrum = vector<Dcomplex>(FFT_SIZE,0.0);
-	[self getCurrentSpectrum:spectrum fftSize:spectrum.size()];
-	
-	NSBezierPath *path = [[NSBezierPath bezierPath] retain];
-	
-	int start = _start_freq, stop = _stop_freq ;
-	for (int f = start; f < stop ; f+=2){
-		double amp = [self calculateAmpForFreq:f fromSpectrum:spectrum];
-		double db = 20 * std::log10(amp);
+	//draw line for each octave
+	for (int o = 0 ; o < 4 ; o++){
+		NSBezierPath *path = [self makeLineForOctave:o];
 		
-		float pixel_per_freq = self.bounds.size.width / (stop-start);
-		float x = (f - (start)) * pixel_per_freq ;
-		float y = (db+96+30) * (self.bounds.size.height) / 96.0f;
-		if (f == start){
-			[path moveToPoint:NSMakePoint(x,y)];
-		}else{
-			[path lineToPoint:NSMakePoint(x,y)];
-		}
+		//オクターブが上がるほど線を細くする。
+		[path setLineWidth:4-o];
+		
+		float red = 0.5 + 0.5f * o / 2;
+		NSColor *color = [NSColor colorWithCalibratedRed:red/*0.5*/
+												   green:0.1 
+													blue:0.1
+												   alpha:0.9];
+		[color set];
+		[path stroke];
 	}
 	
-	[[NSColor yellowColor] set];
-	[[NSGraphicsContext currentContext] setShouldAntialias:NO];
-	[path stroke];
 }	
 	
 
@@ -169,6 +236,7 @@ static double linearInterporation(double x0, double y0, double x1, double y1, do
     [[NSColor blackColor] set];
 	NSRectFill([self bounds]);
 	
+	//[[NSGraphicsContext currentContext] setShouldAntialias:NO];
 	
 	[self drawOctaves];
 	[self drawLabel];
