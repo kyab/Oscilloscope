@@ -19,7 +19,7 @@
 #import "3d.h"
 
 
-static const int FFT_SIZE = 128;
+static const int FFT_SIZE = 128*2*2*2;
 static const int SPECTRUM3D_COUNT = 40;
 
 
@@ -29,6 +29,7 @@ static const int SPECTRUM3D_COUNT = 40;
 @implementation SpectrumView3D_mesh
 
 @synthesize rotateX = _rotateX,rotateY = _rotateY, rotateZ = _rotateZ;
+@synthesize enabled = _enabled, log = _log;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
@@ -37,6 +38,8 @@ static const int SPECTRUM3D_COUNT = 40;
 		_rotateX = 64.96;// 30;
 		_rotateY = -10.8;//-40;
 		_rotateZ = -21.6;
+		_enabled = YES;
+		_log = YES;
 		
     }
     return self;
@@ -110,7 +113,18 @@ static const int SPECTRUM3D_COUNT = 40;
 			
 			float y = db + 96 + 0;
 			float z = f;
-			z = z * 100/FFT_SIZE*4;
+			
+			if (_log){
+				float freq = (float)f * 44100/FFT_SIZE;
+				float logFreq = std::log10(freq);
+				if (logFreq < 1.0f) logFreq = 0.0f;
+				logFreq -= std::log10(1000);
+				z = 100.0f/(std::log10(22050) - std::log10(1000)) * logFreq;
+				z *= 1;		
+			}else{
+				z = z * 100/FFT_SIZE*2;
+			}
+			
 			y = y * 200/96 * 0.4;
 			float x = float(i) * 200/(_spectrums.size())*1.3;
 			
@@ -144,7 +158,16 @@ static const int SPECTRUM3D_COUNT = 40;
 		float z = i;
 		
 		//scale to world coordinate:[-100,100]
-		z = z * 100/length*2/*scale factor*/;
+		if (_log){
+			float freq = (float)i * 44100/spectrum.size();
+			float logFreq = std::log10(freq);
+			if (logFreq < 1.0f) logFreq = 0.0f;
+			logFreq -= std::log10(1000);
+			z = 100.0f/(std::log10(22050) - std::log10(1000)) * logFreq;
+			z *= 1;			
+		}else{
+			z = z * 100/length*1/*scale factor*/;
+		}
 		y = y * 200/96 * 0.4/*scale factor*/;
 		float x = float(index) * 200/(_spectrums.size()) * 1.3/*scale factor*/;
 		
@@ -165,35 +188,7 @@ static const int SPECTRUM3D_COUNT = 40;
 												blue:0.1
 											   alpha:0.9];
 	[color set];
-
-	//last point to -96 decibel
-	/*
-	{
-		float x,y,z;
-		x = float(index) * 200/(_spectrums.size()) * 1.3;
-		y = 0.0f;
-		y = y * 200/96 * 0.4;
-		z = float(length)*100/length*2;
-		Point3D point3d(x,y,z);
-		NSPoint zeroAtMaxFreq = [self pointXYFrom3DPoint:point3d];
-		[path lineToPoint:zeroAtMaxFreq];
-	}
 	
-	{
-		float x,y,z;
-		x = float(index) * 200/(_spectrums.size()) * 1.3;
-		y = 0.0f;
-		y = y * 200/96 * 0.4;
-		z = 0.0f*100/length*2;
-		Point3D point3d(x,y,z);
-		NSPoint zeroAtMinFreq = [self pointXYFrom3DPoint:point3d];
-		[path lineToPoint:zeroAtMinFreq];
-	}*/
-	
-	
-	
-	//[path closePath];
-	//[path fill];
 	[[NSColor yellowColor] set];
 	[path stroke];
 	
@@ -235,36 +230,38 @@ static const int SPECTRUM3D_COUNT = 40;
 	using namespace std;
 	
 	//draw spectrum(s).
-	if (_spectrums.size() > SPECTRUM3D_COUNT){
-		_spectrums.pop_front();
-	}
-	_spectrums.push_back(Spectrum(FFT_SIZE,0.0));
-	
-	{
-		Spectrum &spectrum = _spectrums.back();
-		vector<complex<double> > buffer = vector<complex<double> >(FFT_SIZE, 0.0);
-		const vector<float> *left = [_processor left];
-		
-		if ((left == NULL) || (left->size() < FFT_SIZE)){
-			//NSLog(@"not enough samples to get FFT");
-			return;
+	if (_enabled){
+		if (_spectrums.size() > SPECTRUM3D_COUNT){
+			_spectrums.pop_front();
 		}
+		_spectrums.push_back(Spectrum(FFT_SIZE,0.0));
 		
-		//get the fft of latest FFT_SIZE samples.
-		@synchronized( _processor ){
-			int offset = left->size() - FFT_SIZE;
-			for (int i = 0 ; i < FFT_SIZE; i++){
-				buffer[i] = (*left)[i + offset];
+		{
+			Spectrum &spectrum = _spectrums.back();
+			vector<complex<double> > buffer = vector<complex<double> >(FFT_SIZE, 0.0);
+			const vector<float> *left = [_processor left];
+			
+			if ((left == NULL) || (left->size() < FFT_SIZE)){
+				//NSLog(@"not enough samples to get FFT");
+				return;
 			}
+			
+			//get the fft of latest FFT_SIZE samples.
+			@synchronized( _processor ){
+				int offset = left->size() - FFT_SIZE;
+				for (int i = 0 ; i < FFT_SIZE; i++){
+					buffer[i] = (*left)[i + offset];
+				}
+			}
+			fastForwardFFT(&buffer[0], FFT_SIZE, &(spectrum[0]));
 		}
-		fastForwardFFT(&buffer[0], FFT_SIZE, &(spectrum[0]));
-	}
-	
-	for(int index = 0; index < _spectrums.size(); index++){
 		
-		[self drawSpectrum:_spectrums[index] index:index];
+		for(int index = 0; index < _spectrums.size(); index++){
+			
+			[self drawSpectrum:_spectrums[index] index:index];
+		}
+		[self drawVerticalSpectrum]; 
 	}
-	[self drawVerticalSpectrum]; 
 	//draw axis
 	
 	[[NSColor yellowColor] set];

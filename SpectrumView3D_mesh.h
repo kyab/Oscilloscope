@@ -23,6 +23,9 @@ typedef std::vector<Dcomplex>  Spectrum;
 	float _rotateY;
 	float _rotateZ;
 	
+	Boolean _enabled;
+	Boolean _log;
+	
 }
 
 - (void)setProcessor:(CoreAudioInputProcessor *)processor;
@@ -30,6 +33,8 @@ typedef std::vector<Dcomplex>  Spectrum;
 @property(assign)float rotateX;
 @property(assign)float rotateY;
 @property(assign)float rotateZ;
+@property(assign)Boolean enabled;
+@property(assign)Boolean log;
 
 @end
 

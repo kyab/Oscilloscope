@@ -19,7 +19,7 @@
 #import "3d.h"
 
 
-static const int FFT_SIZE = 256 * 2;
+static const int FFT_SIZE = 256 * 4;
 static const int SPECTRUM3D_COUNT = 40;
 
 //world corrdinate is basically [-100 100] for x,y, and z
@@ -27,7 +27,7 @@ static const int SPECTRUM3D_COUNT = 40;
 @implementation SpectrumView3D
 
 @synthesize rotateX = _rotateX,rotateY = _rotateY, rotateZ = _rotateZ;
-@synthesize enabled = _enabled;
+@synthesize enabled = _enabled, log = _log;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
@@ -37,6 +37,7 @@ static const int SPECTRUM3D_COUNT = 40;
 		_rotateY = 0;//-40;
 		_rotateZ = 0;
 		_enabled = NO;
+		_log = NO;
 								 
     }
     return self;
@@ -120,10 +121,20 @@ static const int SPECTRUM3D_COUNT = 40;
 		float z = i;
 		
 		//scale to world coordinate:[-100,100]
-		z = z * 100/length*2/*scale factor*/;
-		y = y * 200/96 * 0.2/*scale factor*/;
-		float x = float(index) * 200/(_spectrums.size()) * 1.3/*scale factor*/;
+		if (_log){
+			float freq = (float)i * 44100/spectrum.size();
+			float logFreq = std::log10(freq);
+			if (logFreq < 1.0f) logFreq = 0.0f;
+			z = 100.0f/(std::log10(22050) - std::log10(10)) * logFreq;
+			z *= 2;
+		}else{
+			z = z * 100/length*2/*scale factor*/;
+		}
 		
+		y = y * 200/96 * 0.2/*scale factor*/;
+		
+		float x = float(index) * 200/(_spectrums.size()) * 1.3/*scale factor*/;
+
 		Point3D point3d(x,y,z);
 		
 		//now point3d is 3D point in world coordinate.

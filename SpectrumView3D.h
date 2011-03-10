@@ -24,6 +24,7 @@ typedef std::vector<Dcomplex>  Spectrum;
 	float _rotateZ;
 	
 	Boolean _enabled;
+	Boolean _log;
 	
 }
 
@@ -33,6 +34,7 @@ typedef std::vector<Dcomplex>  Spectrum;
 @property(assign)float rotateY;
 @property(assign)float rotateZ;
 @property(assign)Boolean enabled;
+@property(assign)Boolean log;
 
 @end
 
